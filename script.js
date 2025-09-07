@@ -1,9 +1,10 @@
 const gameBoard = document.querySelector(".game");
 const gridSize = 20;
-const snakeBody = [2, 1]; // Snake body represented as [head, tail] indexes
+let snakeBody = [2, 1]; // Snake body represented as [head, tail] indexes
 let food = getRandomFoodPosition();
 let direction = 1; // 1: right, -1: left, gridSize: down, -gridSize: up
 let isGameOver = false;
+let gameLoop;
 
 function getRandomFoodPosition() {
   return Math.floor(Math.random() * gridSize * gridSize);
@@ -12,7 +13,6 @@ function getRandomFoodPosition() {
 function updateSnake() {
   snakeBody.unshift(snakeBody[0] + direction);
   if (snakeBody[0] === food) {
-    // The snake ate the food, so we increase its length by not removing the tail.
     food = getRandomFoodPosition();
   } else {
     snakeBody.pop();
@@ -45,6 +45,8 @@ function checkGameOver() {
     snakeBody.slice(1).includes(snakeBody[0])
   ) {
     isGameOver = true;
+    document.querySelector('.game-over-screen').style.display = 'block';
+    clearInterval(gameLoop);
   }
 }
 
@@ -62,7 +64,6 @@ function handleKeyPress(event) {
 
 function main() {
   if (isGameOver) {
-    alert("Game Over!");
     return;
   }
 
@@ -70,9 +71,33 @@ function main() {
   checkGameOver();
   drawSnake();
   drawFood();
+}
 
-  setTimeout(main, 200); // Game loop - run the main function every 200ms
+function startGame() {
+    snakeBody = [2, 1];
+    food = getRandomFoodPosition();
+    direction = 1;
+    isGameOver = false;
+    document.querySelector('.game-over-screen').style.display = 'none';
+    gameLoop = setInterval(main, 200);
 }
 
 document.addEventListener("keydown", handleKeyPress);
-main();
+
+document.getElementById('up').addEventListener('click', () => {
+    if (direction !== gridSize) direction = -gridSize;
+});
+document.getElementById('down').addEventListener('click', () => {
+    if (direction !== -gridSize) direction = gridSize;
+});
+document.getElementById('left').addEventListener('click', () => {
+    if (direction !== 1) direction = -1;
+});
+document.getElementById('right').addEventListener('click', () => {
+    if (direction !== -1) direction = 1;
+});
+document.getElementById('restart').addEventListener('click', () => {
+    startGame();
+});
+
+startGame();
