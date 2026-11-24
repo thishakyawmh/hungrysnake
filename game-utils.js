@@ -16,7 +16,8 @@ export function getRandomFreeCell(occupiedCells, totalCells, random = Math.rando
 
   if (freeCells.length === 0) return null;
 
-  const randomValue = Number.isFinite(random()) ? random() : 0;
+  const generatedRandom = random();
+  const randomValue = Number.isFinite(generatedRandom) ? generatedRandom : 0;
   const safeRandom = Math.min(Math.max(randomValue, 0), 0.999999999);
   return freeCells[Math.floor(safeRandom * freeCells.length)];
 }
