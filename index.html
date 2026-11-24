@@ -11,7 +11,7 @@
         <h1>Hungry Snake</h1>
     </div>
     <div class="game-container">
-        <div class="game"></div>
+        <div class="game" role="img" aria-label="Snake game board"></div>
     </div>
     <div class="controls">
         <button id="up">▲</button>
@@ -21,10 +21,10 @@
             <button id="right">►</button>
         </div>
     </div>
-    <div class="game-over-screen" style="display: none;">
+    <div class="game-over-screen" role="status" aria-live="polite" style="display: none;">
         <h2>Game Over</h2>
         <button id="restart">Restart</button>
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
